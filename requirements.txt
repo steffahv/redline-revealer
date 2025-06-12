@@ -1,0 +1,8 @@
+streamlit
+pandas
+geopandas
+openai
+langchain
+scikit-learn
+python-dotenv
+matplotlib
