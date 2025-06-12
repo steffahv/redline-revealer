@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🗺️ Redline Revealer
 **Unearthing the past. Protecting the future.**
 
@@ -44,3 +45,6 @@ redline-revealer/
 
 ## 🏆 Built for the Microsoft x Women in Cloud Hackathon
 Proudly aligned with Microsoft’s responsible AI vision and cloud innovation stack.
+=======
+# Redline Revealer
+>>>>>>> 2b9034f3135738bb0e63ce9fc654d99b3013823b
