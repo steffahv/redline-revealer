@@ -6,3 +6,4 @@ langchain
 scikit-learn
 python-dotenv
 matplotlib
+langchain

@@ -1,4 +1,5 @@
 import streamlit as st
+from agent.legal_agent import get_legal_answer
 
 st.set_page_config(page_title="Redline Revealer", layout="wide")
 
@@ -17,4 +18,5 @@ with tab2:
     user_input = st.text_input("Ask me anything:")
     if user_input:
         st.write(f"🔍 You asked: {user_input}")
-        st.success("Azure OpenAI answer placeholder.")
+        answer = get_legal_answer(user_input)  # Call the function
+        st.success(answer)
