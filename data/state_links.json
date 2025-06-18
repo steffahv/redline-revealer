@@ -1,0 +1,205 @@
+{
+  "alabama": {
+    "property": "https://law.justia.com/codes/alabama/title-35/",
+    "lost property": "https://law.justia.com/codes/alabama/title-35/chapter-12/",
+    "unclaimed property": "https://law.justia.com/codes/alabama/title-35/chapter-12/"
+  },
+  "alaska": {
+    "property": "https://law.justia.com/codes/alaska/title-34/",
+    "unclaimed property": "https://law.justia.com/codes/alaska/title-34/chapter-45/"
+  },
+  "arizona": {
+    "property": "https://law.justia.com/codes/arizona/title-33/"
+  },
+  "arkansas": {
+    "property": "https://law.justia.com/codes/arkansas/title-18/",
+    "unclaimed property": "https://law.justia.com/codes/alaska/title-34/chapter-45/"
+  },
+  "california": {
+    "property": "https://law.justia.com/codes/california/code-civ/division-2/"
+  },
+  "colorado": {
+    "property": "https://law.justia.com/codes/colorado/title-38/",
+    "unclaimed property": "https://law.justia.com/codes/colorado/title-38/unclaimed-property/"
+  },
+  "connecticut": {
+    "land titles": "https://law.justia.com/codes/connecticut/title-47/",
+    "lost property": "https://law.justia.com/codes/connecticut/title-50/",
+    "unclaimed property": "https://law.justia.com/codes/connecticut/title-50/"
+  },
+  "delaware": {
+    "property": "https://law.justia.com/codes/delaware/title-25/",
+    "unclaimed property": "https://law.justia.com/codes/delaware/title-25/chapter-40/"
+  },
+  "florida": {
+    "abandoned property": "https://law.justia.com/codes/florida/2007/TitleXL/chapter705/chapter705.html",
+    "lost property": "https://law.justia.com/codes/florida/2007/TitleXL/chapter705/chapter705.html"
+  },
+  "georgia": {
+    "property": "https://law.justia.com/codes/georgia/title-44/"
+  },
+  "hawaii": {
+    "property": "https://law.justia.com/codes/hawaii/title-28/"
+  },
+  "idaho": {
+    "abandoned property": "https://law.justia.com/codes/idaho/title-55/",
+    "unclaimed property": "https://law.justia.com/codes/idaho/title-55/chapter-14/"
+  },
+  "illinois": {
+    "property": "https://law.justia.com/codes/illinois/chapter-765/"
+  },
+  "indiana": {
+    "abandoned property": "https://law.justia.com/codes/indiana/title-32/",
+    "lost property": "https://law.justia.com/codes/indiana/title-32/article-34/",
+    "unclaimed property": "https://law.justia.com/codes/indiana/title-32/article-34/"
+  },
+  "iowa": {
+    "abandoned property": "https://law.justia.com/iowa/",
+    "lost property": "https://law.justia.com/iowa/"
+  },
+  "kansas": {
+    "abandoned property": "https://law.justia.com/kansas/",
+    "lost property": "https://law.justia.com/kansas/"
+  },
+  "kentucky": {
+    "Title to property and restrictions on use, ownership, and alienation": "https://law.justia.com/codes/kentucky/chapter-381/",
+    "abandoned property": "https://law.justia.com/kentucky/",
+    "lost property": "https://law.justia.com/kentucky/"
+  },
+  "louisiana": {
+    "abandoned property": "https://law.justia.com/louisiana/",
+    "lost property": "https://law.justia.com/louisiana/"
+  },
+  "maine": {
+    "abandoned property": "https://law.justia.com/maine/",
+    "lost property": "https://law.justia.com/maine/"
+  },
+  "maryland": {
+    "abandoned property": "https://law.justia.com/maryland/",
+    "lost property": "https://law.justia.com/maryland/"
+  },
+  "massachusetts": {
+    "abandoned property": "https://law.justia.com/massachusetts/",
+    "lost property": "https://law.justia.com/massachusetts/"
+  },
+  "michigan": {
+    "abandoned property": "https://law.justia.com/michigan/",
+    "lost property": "https://law.justia.com/michigan/"
+  },
+  "minnesota": {
+    "abandoned property": "https://law.justia.com/minnesota/",
+    "lost property": "https://law.justia.com/minnesota/"
+  },
+  "mississippi": {
+    "abandoned property": "https://law.justia.com/mississippi/",
+    "lost property": "https://law.justia.com/mississippi/"
+  },
+  "missouri": {
+    "abandoned property": "https://law.justia.com/missouri/",
+    "lost property": "https://law.justia.com/missouri/"
+  },
+  "montana": {
+    "abandoned property": "https://law.justia.com/montana/",
+    "lost property": "https://law.justia.com/montana/"
+  },
+  "nebraska": {
+    "abandoned property": "https://law.justia.com/nebraska/",
+    "lost property": "https://law.justia.com/nebraska/"
+  },
+  "nevada": {
+    "abandoned property": "https://law.justia.com/nevada/",
+    "lost property": "https://law.justia.com/nevada/"
+  },
+  "new hampshire": {
+    "abandoned property": "https://law.justia.com/new-hampshire/",
+    "lost property": "https://law.justia.com/new-hampshire/"
+  },
+  "new jersey": {
+    "abandoned property": "https://law.justia.com/new-jersey/",
+    "lost property": "https://law.justia.com/new-jersey/"
+  },
+  "new mexico": {
+    "abandoned property": "https://law.justia.com/new-mexico/",
+    "lost property": "https://law.justia.com/new-mexico/"
+  },
+  "new york": {
+    "abandoned property": "https://law.justia.com/codes/new-york/pep/",
+    "lost property": "https://law.justia.com/codes/new-york/pep/article-7-b/"
+  },
+  "north carolina": {
+    "abandoned property": "https://law.justia.com/north-carolina/",
+    "lost property": "https://law.justia.com/north-carolina/"
+  },
+  "north dakota": {
+    "abandoned property": "https://law.justia.com/north-dakota/",
+    "lost property": "https://law.justia.com/north-dakota/"
+  },
+  "ohio": {
+    "abandoned property": "https://law.justia.com/ohio/",
+    "lost property": "https://law.justia.com/ohio/"
+  },
+  "oklahoma": {
+    "abandoned property": "https://law.justia.com/oklahoma/",
+    "lost property": "https://law.justia.com/oklahoma/"
+  },
+  "oregon": {
+    "abandoned property": "https://law.justia.com/oregon/",
+    "lost property": "https://law.justia.com/oregon/"
+  },
+  "pennsylvania": {
+    "abandoned property": "https://law.justia.com/pennsylvania/",
+    "lost property": "https://law.justia.com/pennsylvania/"
+  },
+  "rhode island": {
+    "abandoned property": "https://law.justia.com/rhode-island/",
+    "lost property": "https://law.justia.com/rhode-island/"
+  },
+  "south carolina": {
+    "abandoned property": "https://law.justia.com/south-carolina/",
+    "lost property": "https://law.justia.com/south-carolina/"
+  },
+  "south dakota": {
+    "abandoned property": "https://law.justia.com/south-dakota/",
+    "lost property": "https://law.justia.com/south-dakota/"
+  },
+  "tennessee": {
+    "abandoned property": "https://law.justia.com/tennessee/",
+    "lost property": "https://law.justia.com/tennessee/"
+  },
+  "texas": {
+    "abandoned property": "https://law.justia.com/texas/",
+    "lost property": "https://law.justia.com/texas/"
+  },
+  "utah": {
+    "abandoned property": "https://law.justia.com/utah/",
+    "lost property": "https://law.justia.com/utah/"
+  },
+  "vermont": {
+    "abandoned property": "https://law.justia.com/vermont/",
+    "lost property": "https://law.justia.com/vermont/"
+  },
+  "virginia": {
+    "abandoned property": "https://law.justia.com/virginia/",
+    "lost property": "https://law.justia.com/virginia/"
+  },
+  "washington": {
+    "abandoned property": "https://law.justia.com/codes/washington/title-63/",
+    "lost property": "https://law.justia.com/codes/washington/title-63/chapter-63-21/"
+  },
+  "west virginia": {
+    "abandoned property": "https://law.justia.com/west-virginia/",
+    "lost property": "https://law.justia.com/west-virginia/"
+  },
+  "wisconsin": {
+    "abandoned property": "https://law.justia.com/codes/wisconsin/chapter-700/",
+    "lost property": "https://law.justia.com/wisconsin/"
+  },
+  "wyoming": {
+    "abandoned property": "https://law.justia.com/codes/wyoming/title-34/",
+    "lost property": "https://law.justia.com/wyoming/"
+  },
+  "district of columbia": {
+    "abandoned property": "https://law.justia.com/district-of-columbia/",
+    "lost property": "https://law.justia.com/district-of-columbia/"
+  }
+}
