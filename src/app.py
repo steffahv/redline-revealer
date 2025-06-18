@@ -5,7 +5,12 @@ st.set_page_config(page_title="Redline Revealer", layout="wide")
 st.title("🏙️ Redline Revealer")
 st.markdown("Unearthing the past. Protecting the future.")
 
-tab1, tab2, tab3, tab4 = st.tabs(["👋 Welcome","📍 Redlining Map", "🧠 LLM Assistant", "💖 About Us"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "👋 Welcome", 
+    "📍 Redlining Map", 
+    "🧠 LLM Assistant", 
+    "💖 About Us"
+])
 
 with tab1:
     st.subheader("Welcome to Redline Revealer")
