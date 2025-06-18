@@ -13,8 +13,9 @@ with tab1:
 
 with tab2:
     st.subheader("AI Legal Assistant")
-    st.write(
-        "Welcome to Redline Revealer. This AI tool helps assess housing risk."
+    st.info(
+        "Ask questions about heirs’ property, title issues, "
+        "and stability strategies."
     )
     user_input = st.text_input("Ask me anything:")
     if user_input:
