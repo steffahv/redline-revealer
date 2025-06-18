@@ -18,5 +18,6 @@ with tab2:
     user_input = st.text_input("Ask me anything:")
     if user_input:
         st.write(f"🔍 You asked: {user_input}")
-        answer = get_legal_answer(user_input)  # Call the function
+        with st.spinner("Thinking..."):
+            answer = get_legal_answer(user_input)
         st.success(answer)

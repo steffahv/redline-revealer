@@ -5,8 +5,8 @@ from openai import AzureOpenAI
 from langchain_community.vectorstores import FAISS
 from langchain_openai import AzureChatOpenAI
 from langchain_openai import AzureOpenAIEmbeddings
+from langchain.prompts import PromptTemplate
 from langchain.chains.retrieval_qa.base import RetrievalQA
-
 
 load_dotenv()
 
@@ -44,7 +44,7 @@ vectorstore = FAISS.load_local(
     embeddings=embedding_model,
     allow_dangerous_deserialization=True
 )
-retriever = vectorstore.as_retriever()
+retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
 llm = AzureChatOpenAI(
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
@@ -53,20 +53,45 @@ llm = AzureChatOpenAI(
     deployment_name=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT"),
 )
 
-qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
+# Custom detailed prompt
+custom_prompt = PromptTemplate.from_template("""
+You are a legal assistant helping someone understand how to resolve heirs' property issues.
+
+Use the following documents to give a detailed and actionable response, including:
+- Steps the person should take
+- Names of organizations, contact info, and websites if available
+- Legal terms or state laws if mentioned in the documents
+
+If you don't find information in the documents, say "I don't know".
+
+Context:
+{context}
+
+Question: {question}
+""")
+
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=retriever,
+    return_source_documents=False,
+    chain_type_kwargs={"prompt": custom_prompt},
+)
 
 # Main agent function
-
 def get_legal_answer(question):
     try:
-        # 1. Run the QA chain with source documents
+        # 1. Run the QA chain with vector search
         result = qa_chain(
             {"query": question},
             return_only_outputs=True
         )
         answer = result["result"]
 
-        # 2. Add sources used (filenames)
+        # 2. If RAG gives weak answer, fallback to raw LLM
+        if "i don't know" in answer.lower() or len(answer.strip()) < 40:
+            answer = llm.invoke(question).content  # Call GPT directly (no vector context)
+
+        # 3. Add sources used (filenames)
         if "source_documents" in result:
             sources = set()
             for doc in result["source_documents"]:
@@ -76,7 +101,7 @@ def get_legal_answer(question):
             if sources:
                 answer += "\n\n📄 Sources: " + ", ".join(sorted(sources))
 
-        # 3. Add curated law link if relevant
+        # 4. Add curated law link if relevant
         curated_link = get_reference_link(question)
         if curated_link:
             answer += f"\n\n🔗 For more info, see: {curated_link}"
