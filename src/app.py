@@ -39,5 +39,5 @@ with tab4:
         "Learn more about the team here.")
     st.html("<h1>Portia Jefferson</h1>" \
     "<h2> Role: Project Manager & DevSecOps Lead </h2>")
-    st.image( "../assets/JeffersonP.jpg")
+    st.image("../assets/JeffersonP.jpg")
     st.html("<p> Portia is a Certified Cybersecurity Professional, Certified AI Consultant, and current cybersecurity student with a background in IT, finance, and compliance. She joined the Redline Revealer project to put her skills to the test in a hands-on setting—especially in exploring how AI can be used to address ethical challenges and support communities. As the team’s Project Manager and DevSecOps lead, she coordinated timelines, facilitated tool access, and ensured GitHub workflows stayed organized and secure. Portia is passionate about using technology to uncover systemic issues and empower communities—and saw this project as a meaningful way to contribute to that mission.</p>")
