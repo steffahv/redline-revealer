@@ -6,9 +6,9 @@ st.title("🏙️ Redline Revealer")
 st.markdown("Unearthing the past. Protecting the future.")
 
 tab1, tab2, tab3, tab4 = st.tabs([
-    "👋 Welcome", 
-    "📍 Redlining Map", 
-    "🧠 LLM Assistant", 
+    "👋 Welcome",
+    "📍 Redlining Map",
+    "🧠 LLM Assistant",
     "💖 About Us"
 ])
 
@@ -33,7 +33,7 @@ with tab3:
         st.write(f"🔍 You asked: {user_input}")
         st.success("Azure OpenAI answer placeholder.")
 
-with tab4: 
+with tab4:
     st.subheader("About Us")
     st.info(
         "Learn more about the team here."
