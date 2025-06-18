@@ -20,4 +20,3 @@ with tab2:
     if user_input:
         st.write(f"🔍 You asked: {user_input}")
         st.success("Azure OpenAI answer placeholder.")
-
