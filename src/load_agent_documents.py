@@ -6,31 +6,33 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import AzureOpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 
-# Load env variables
 load_dotenv()
 
 AZURE_CONN_STR = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-AZURE_OPENAI_EMBEDDING_DEPLOYMENT = os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT")
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT = os.getenv(
+    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT")
 AZURE_OPENAI_EMBEDDING_MODEL = os.getenv("AZURE_OPENAI_EMBEDDING_MODEL")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
 AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION")
 
-# ⚠️ Update your container name here
-container_name = "legal-docs"  # Replace this with your actual Blob container name
+# Update your container name here
+container_name = "legal-docs"
 
 # Where to store downloaded PDFs locally
 local_path = os.path.join("data", "blob_pdfs")
 os.makedirs(local_path, exist_ok=True)
 
 print("⬇️ Downloading PDFs from Azure Blob Storage...")
-container_client = ContainerClient.from_connection_string(AZURE_CONN_STR, container_name)
+container_client = ContainerClient.from_connection_string(
+    AZURE_CONN_STR, container_name)
 
 for blob in container_client.list_blobs():
     if blob.name.endswith(".pdf"):
         local_file = os.path.join(local_path, os.path.basename(blob.name))
         with open(local_file, "wb") as f:
-            blob_data = container_client.get_blob_client(blob.name).download_blob().readall()
+            blob_data = container_client.get_blob_client(
+                blob.name).download_blob().readall()
             f.write(blob_data)
         print(f"✅ Downloaded: {blob.name}")
 

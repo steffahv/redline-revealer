@@ -6,7 +6,6 @@ from openai import AzureOpenAI
 from langchain_community.vectorstores import FAISS
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from langchain.prompts import PromptTemplate
-from langchain.chains.retrieval_qa.base import RetrievalQA
 from langchain.chains.question_answering import load_qa_chain
 from utils.state_list import US_STATES
 
@@ -26,7 +25,13 @@ with open(os.path.join("data", "source_links.json"), "r") as f:
 with open(os.path.join("data", "state_links.json"), "r") as f:
     reference_links = json.load(f)
 
-# Helper to find curated link from JSON
+# Helper to check if a document is generic (not state-specific)
+
+
+def is_generic_doc(filename):
+    return not re.search(r"-[a-z]{2}-\d{4}", filename.lower())
+
+
 def get_reference_link(question):
     question_lower = question.lower()
     for state, topics in reference_links.items():
@@ -37,12 +42,14 @@ def get_reference_link(question):
                     return link
     return None
 
+
 # Helper to extract state name from question
 def extract_state(question):
     for state in US_STATES:
         if re.search(rf"\b{state}\b", question, re.IGNORECASE):
             return state.lower()
     return None
+
 
 # Setup RAG (FAISS + LangChain)
 embedding_model = AzureOpenAIEmbeddings(
@@ -65,30 +72,30 @@ llm = AzureChatOpenAI(
     deployment_name=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT"),
 )
 
+
 # Custom prompt for QA
-custom_prompt = PromptTemplate.from_template("""
-You are a legal assistant helping someone understand how to resolve heirs' property issues.
-
-Use the following documents to give a detailed and actionable response, including:
-- Steps the person should take
-- Names of organizations, contact info, and websites if available
-- Legal terms or state laws if mentioned in the documents
-
-If you don't find information in the documents, say "I don't know".
-
-Context:
-{context}
-
-Question: {question}
-""")
+custom_prompt_text = (
+    "You are a legal assistant helping someone understand how to resolve "
+    "heirs' property issues.\n\n"
+    "Use the following documents to give a detailed and actionable response, "
+    "including:\n"
+    "- Steps the person should take\n"
+    "- Names of organizations, contact info, and websites if available\n"
+    "- Legal terms or state laws if mentioned in the documents\n\n"
+    "If you don't find information in the documents, say \"I don't know\".\n\n"
+    "Context:\n{context}\n\nQuestion: {question}"
+)
+custom_prompt = PromptTemplate.from_template(custom_prompt_text)
 
 # Main function
+
+
 def get_legal_answer(question):
     try:
         state = extract_state(question)
         docs = retriever.get_relevant_documents(question)
 
-        # Filter documents by matching state in content or source name
+        # Filter documents
         filtered_docs = []
         if state:
             for doc in docs:
@@ -97,35 +104,48 @@ def get_legal_answer(question):
                 if state in content or state in source:
                     filtered_docs.append(doc)
         else:
-            filtered_docs = docs
+            # Only allow generic docs if state not found
+            for doc in docs:
+                filename = os.path.basename(
+                    doc.metadata.get("source", "")).lower()
+                if is_generic_doc(filename):
+                    filtered_docs.append(doc)
 
-        # If we have matching documents, use RAG
+        # Use RAG if there are any documents
         if filtered_docs:
-            chain = load_qa_chain(llm, chain_type="stuff", prompt=custom_prompt)
-            answer = chain.run(input_documents=filtered_docs, question=question)
+            chain = load_qa_chain(
+                llm,
+                chain_type="stuff",
+                prompt=custom_prompt
+            )
+            answer = chain.run(
+                input_documents=filtered_docs,
+                question=question
+            )
             result = {"result": answer, "source_documents": filtered_docs}
         else:
-            # Fallback to LLM directly
+            # Fallback to raw LLM
             result = {"source_documents": []}
             answer = llm.invoke(question).content
 
-        # Additional fallback if response is too weak
+        # Fallback again if LLM reply is too short or unhelpful
         if "i don't know" in answer.lower() or len(answer.strip()) < 40:
             answer = llm.invoke(question).content
 
-        # Source documents used with clickable links
+        # Add clickable source links
         sources = set()
         for doc in result["source_documents"]:
-            if "source" in doc.metadata:
-                filename = os.path.basename(doc.metadata["source"])
-                link = source_links.get(filename)
-                if link:
-                    sources.add(f"[{filename}]({link})")
-                else:
-                    sources.add(filename)  # fallback to plain text
+            filename = os.path.basename(doc.metadata.get("source", ""))
+            link = source_links.get(filename)
+            if link:
+                sources.add(f"[{filename}]({link})")
+            else:
+                sources.add(filename)
 
         if sources:
-            answer += "\n\n📄 Source Documents Used:\n" + "\n".join(f"🔹 {src}" for src in sorted(sources))
+            source_list = "\n".join(f"🔹 {src}" for src in sorted(sources))
+            answer += "\n\n📄 Source Documents Used:\n" + source_list
+
         # Add curated law link if available
         curated_link = get_reference_link(question)
         if curated_link:

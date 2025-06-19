@@ -1,7 +1,8 @@
+from agent.legal_agent import get_legal_answer
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from agent.legal_agent import get_legal_answer
+
 
 def handle_prompt(user_input: str) -> dict:
     """
@@ -36,7 +37,8 @@ def handle_prompt(user_input: str) -> dict:
     if "📄 Sources:" in answer:
         parts = answer.split("📄 Sources:")
         answer = parts[0].strip()
-        source_info = [src.strip() for src in parts[1].split(",") if src.strip()]
+        source_info = [src.strip()
+                       for src in parts[1].split(",") if src.strip()]
 
     return {
         "answer": answer,
