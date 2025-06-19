@@ -17,7 +17,8 @@ def render_answer_block(result: dict):
     # Curated link
     if result.get("curated_link"):
         curated_block = (
-            "<div style='margin-top:25px;padding:16px;background-color:#eef6fc;"
+            "<div style='margin-top:25px;padding:16px;"
+            "background-color:#eef6fc;"
             "border-left:5px solid #2a5bd7;border-radius:8px;'>"
             "<p style='margin:0;font-size:15px;color:#1a1a1a;'>"
             "📘 For more information, consult the full legal guide below:</p>"
