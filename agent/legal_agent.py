@@ -1,12 +1,14 @@
 import os
 import json
+import re
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from langchain_community.vectorstores import FAISS
-from langchain_openai import AzureChatOpenAI
-from langchain_openai import AzureOpenAIEmbeddings
+from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
 from langchain.prompts import PromptTemplate
 from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain.chains.question_answering import load_qa_chain
+from utils.state_list import US_STATES
 
 load_dotenv()
 
@@ -17,6 +19,9 @@ client = AzureOpenAI(
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
 )
 
+# Load public blob links for source documents
+with open(os.path.join("data", "source_links.json"), "r") as f:
+    source_links = json.load(f)
 # Load curated law links
 with open(os.path.join("data", "state_links.json"), "r") as f:
     reference_links = json.load(f)
@@ -30,6 +35,13 @@ def get_reference_link(question):
                 topic_words = topic.lower().split()
                 if all(word in question_lower for word in topic_words):
                     return link
+    return None
+
+# Helper to extract state name from question
+def extract_state(question):
+    for state in US_STATES:
+        if re.search(rf"\b{state}\b", question, re.IGNORECASE):
+            return state.lower()
     return None
 
 # Setup RAG (FAISS + LangChain)
@@ -53,7 +65,7 @@ llm = AzureChatOpenAI(
     deployment_name=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT"),
 )
 
-# Custom detailed prompt
+# Custom prompt for QA
 custom_prompt = PromptTemplate.from_template("""
 You are a legal assistant helping someone understand how to resolve heirs' property issues.
 
@@ -70,38 +82,51 @@ Context:
 Question: {question}
 """)
 
-qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    retriever=retriever,
-    return_source_documents=False,
-    chain_type_kwargs={"prompt": custom_prompt},
-)
-
-# Main agent function
+# Main function
 def get_legal_answer(question):
     try:
-        # 1. Run the QA chain with vector search
-        result = qa_chain(
-            {"query": question},
-            return_only_outputs=True
-        )
-        answer = result["result"]
+        state = extract_state(question)
+        docs = retriever.get_relevant_documents(question)
 
-        # 2. If RAG gives weak answer, fallback to raw LLM
+        # Filter documents by matching state in content or source name
+        filtered_docs = []
+        if state:
+            for doc in docs:
+                content = doc.page_content.lower()
+                source = doc.metadata.get("source", "").lower()
+                if state in content or state in source:
+                    filtered_docs.append(doc)
+        else:
+            filtered_docs = docs
+
+        # If we have matching documents, use RAG
+        if filtered_docs:
+            chain = load_qa_chain(llm, chain_type="stuff", prompt=custom_prompt)
+            answer = chain.run(input_documents=filtered_docs, question=question)
+            result = {"result": answer, "source_documents": filtered_docs}
+        else:
+            # Fallback to LLM directly
+            result = {"source_documents": []}
+            answer = llm.invoke(question).content
+
+        # Additional fallback if response is too weak
         if "i don't know" in answer.lower() or len(answer.strip()) < 40:
-            answer = llm.invoke(question).content  # Call GPT directly (no vector context)
+            answer = llm.invoke(question).content
 
-        # 3. Add sources used (filenames)
-        if "source_documents" in result:
-            sources = set()
-            for doc in result["source_documents"]:
-                metadata = doc.metadata
-                if "source" in metadata:
-                    sources.add(os.path.basename(metadata["source"]))
-            if sources:
-                answer += "\n\n📄 Sources: " + ", ".join(sorted(sources))
+        # Source documents used with clickable links
+        sources = set()
+        for doc in result["source_documents"]:
+            if "source" in doc.metadata:
+                filename = os.path.basename(doc.metadata["source"])
+                link = source_links.get(filename)
+                if link:
+                    sources.add(f"[{filename}]({link})")
+                else:
+                    sources.add(filename)  # fallback to plain text
 
-        # 4. Add curated law link if relevant
+        if sources:
+            answer += "\n\n📄 Source Documents Used:\n" + "\n".join(f"🔹 {src}" for src in sorted(sources))
+        # Add curated law link if available
         curated_link = get_reference_link(question)
         if curated_link:
             answer += f"\n\n🔗 For more info, see: {curated_link}"
