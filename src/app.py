@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image
 
 st.set_page_config(page_title="Redline Revealer", layout="wide")
 
@@ -39,7 +40,8 @@ with tab4:
         "Learn more about the team here.")
     st.html("<h1>Portia Jefferson</h1>"
         "<h2> Role: Project Manager & DevSecOps Lead </h2>")
-    st.image("./assets/JeffersonP.jpg", height = 200)
+    image = Image.open("./assets/JeffersonP.jpg")
+    st.image(image, width=300)
     st.html(
         "<p> Portia is a Certified Cybersecurity Professional, Certified AI Consultant, and current cybersecurity student with a background in IT, finance, and compliance. </p>"
         "<p> She joined the Redline Revealer project to put her skills to the test in a hands-on setting—especially in exploring how AI can be used to address ethical challenges and support communities. </p>"
