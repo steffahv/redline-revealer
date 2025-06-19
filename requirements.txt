@@ -6,3 +6,5 @@ langchain
 scikit-learn
 python-dotenv
 matplotlib
+autopep8
+flake8
