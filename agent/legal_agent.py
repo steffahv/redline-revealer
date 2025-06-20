@@ -9,11 +9,14 @@ import json
 import re
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from langchain_community.vectorstores import FAISS
 from langchain_openai import AzureChatOpenAI, AzureOpenAIEmbeddings
+from langchain_community.vectorstores import (
+    FAISS
+)
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from utils.state_list import US_STATES
+
 
 load_dotenv()
 
