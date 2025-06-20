@@ -11,3 +11,5 @@ azure-storage-blob
 faiss-cpu
 langchain-community
 langchain-openai
+autopep8
+flake8
