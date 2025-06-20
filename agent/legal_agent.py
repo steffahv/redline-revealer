@@ -21,8 +21,10 @@ with open(os.path.join("data", "state_links.json"), "r") as f:
 
 # ---------- Helper functions ----------
 
+
 def is_generic_doc(filename):
     return not re.search(r"-[a-z]{2}-\d{4}", filename.lower())
+    
 
 def get_reference_link(question):
     question_lower = question.lower()
@@ -33,6 +35,7 @@ def get_reference_link(question):
                 if all(word in question_lower for word in topic_words):
                     return link
     return None
+    
 
 def extract_state(question):
     for state in US_STATES:
@@ -42,12 +45,14 @@ def extract_state(question):
 
 # ---------- Setup functions (deferred until called) ----------
 
+
 def get_openai_client():
     return AzureOpenAI(
         api_key=os.getenv("AZURE_OPENAI_KEY"),
         api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
         azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
     )
+
 
 def get_embeddings():
     return AzureOpenAIEmbeddings(
@@ -57,6 +62,7 @@ def get_embeddings():
         api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
     )
 
+
 def get_chat_llm():
     return AzureChatOpenAI(
         azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
@@ -65,7 +71,9 @@ def get_chat_llm():
         deployment_name=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT"),
     )
 
+
 # ---------- Prompt Template ----------
+
 
 custom_prompt_text = (
     "You are a legal assistant helping someone understand how to resolve "
@@ -80,7 +88,9 @@ custom_prompt_text = (
 )
 custom_prompt = PromptTemplate.from_template(custom_prompt_text)
 
+
 # ---------- Main Function ----------
+
 
 def get_legal_answer(question):
     try:
