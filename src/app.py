@@ -28,4 +28,4 @@ with tab2:
             result = handle_prompt(user_input)
 
         render_answer_block(result)
-
+        
