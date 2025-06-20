@@ -11,10 +11,23 @@ project_root = os.path.abspath(os.path.join(current_dir, '..'))
 sys.path.append(src_dir)
 sys.path.append(project_root)
 
-from prompt_handler import handle_prompt  # noqa: E402
+# Only run tests if secrets are available
+REQUIRED_VARS = [
+    "AZURE_OPENAI_KEY",
+    "AZURE_OPENAI_ENDPOINT",
+    "AZURE_OPENAI_API_VERSION",
+    "AZURE_OPENAI_CHAT_DEPLOYMENT"
+]
+
+MISSING_VARS = [var for var in REQUIRED_VARS if not os.getenv(var)]
+
+if not MISSING_VARS:
+    from prompt_handler import handle_prompt  # noqa: E402
 
 
 class TestPromptHandler(unittest.TestCase):
+
+    @unittest.skipIf(MISSING_VARS, f"Missing env vars: {', '.join(MISSING_VARS)}")
     @classmethod
     def setUpClass(cls):
         cls.test_questions = [
@@ -25,13 +38,12 @@ class TestPromptHandler(unittest.TestCase):
             "How do I resolve an heirs' property dispute in Florida?",
             "What should I do if I inherited property but there's no will?",
             "Where can I find legal aid for property issues in Mississippi?",
-            "What resources exist in North Carolina to prevent forced "
-            "partition sales?",
-            "Are there laws in Louisiana to protect against "
-            "predatory land sales?"
+            "What resources exist in North Carolina to prevent forced partition sales?",
+            "Are there laws in Louisiana to protect against predatory land sales?"
         ]
         cls.records = []
 
+    @unittest.skipIf(MISSING_VARS, f"Missing env vars: {', '.join(MISSING_VARS)}")
     def test_questions_responses(self):
         for question in self.test_questions:
             with self.subTest(question=question):
@@ -68,6 +80,7 @@ class TestPromptHandler(unittest.TestCase):
                     })
                     self.fail(f"Error processing question: {e}")
 
+    @unittest.skipIf(MISSING_VARS, f"Missing env vars: {', '.join(MISSING_VARS)}")
     @classmethod
     def tearDownClass(cls):
         path = os.path.join(project_root, "test_outputs.csv")
