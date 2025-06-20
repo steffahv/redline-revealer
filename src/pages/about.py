@@ -1,18 +1,23 @@
-# About Page UI logic
+"""About Page UI for Redline Revealer.
+
+Displays project mission, Responsible AI (RAI) commitments, and team member bios.
+This module is rendered as the 'About Us' tab in the main Streamlit app.
+"""
 
 import streamlit as st
 
 def render():
     st.title("About Redline Revealer")
 
-    # Project Overview
-    st.subheader("🚨 What Problem Are We Solving?")
+    # 🚨 Project Overview
+    st.subheader("🧭 What Problem Are We Solving?")
     st.markdown("""
-    **Redline Revealer** is a civic-tech tool built for the Microsoft x Women in Cloud AI Hackathon. 
-    We use AI and Azure Maps to detect historical redlining and visualize modern housing instability.
+    **Redline Revealer** is a civic-tech tool built for the Microsoft x Women in Cloud AI Hackathon.  
+    We use AI and Azure Maps to detect historical redlining and visualize modern housing instability,  
+    helping communities identify systemic risk and take action through data-driven advocacy.
     """)
 
-    # RAI Commitments
+    # 🔐 RAI Commitments
     st.subheader("🔐 Responsible AI (RAI) Commitments")
     st.markdown("""
     - ✅ **Fairness** – Identifies historic racial bias without reinforcing it  
@@ -22,17 +27,33 @@ def render():
     - 📋 **Accountability** – All changes tracked in GitHub  
     """)
 
-    # Team
+    # 👩🏽‍💻 Meet the Team
     st.subheader("👩🏽‍💻 Meet the Team")
     team = [
-        {"name": "Portia Jefferson", "role": "Project Manager / DevSecOps", "img": "assets/JeffersonP.jpg",
-         "bio": "Portia coordinated the project, managed GitHub and DevOps, and oversaw security, architecture, and submission."},
-        {"name": "Esthefany Humpire Vargas", "role": "AI Engineer", "img": "assets/esthefany.jpg",
-         "bio": "Esthefany built and tested AI prompts using Azure OpenAI and created helper scripts for legal insight generation."},
-        {"name": "Henok Tariku", "role": "Data Analyst", "img": "assets/henok.jpg",
-         "bio": "Henok sourced and visualized historical redlining datasets and created dashboards for community risk scoring."},
-        {"name": "Megan Nepshinsky", "role": "Full-Stack Developer", "img": "assets/megan.jpg",
-         "bio": "Megan developed the Streamlit frontend, linked the assistant, and connected all backend logic to deliver a seamless UI."}
+        {
+            "name": "Portia Jefferson",
+            "role": "Project Manager / DevSecOps",
+            "img": "assets/JeffersonP.jpg",
+            "bio": "Portia coordinated the project, managed GitHub and DevOps, and oversaw security, architecture, and submission."
+        },
+        {
+            "name": "Esthefany Humpire Vargas",
+            "role": "AI Engineer",
+            "img": "assets/esthefany.jpg",
+            "bio": "Esthefany built and tested AI prompts using Azure OpenAI and created helper scripts for legal insight generation."
+        },
+        {
+            "name": "Henok Tariku",
+            "role": "Data Analyst",
+            "img": "assets/henok.jpg",
+            "bio": "Henok sourced and visualized historical redlining datasets and created dashboards for community risk scoring."
+        },
+        {
+            "name": "Megan Nepshinsky",
+            "role": "Full-Stack Developer",
+            "img": "assets/megan.jpg",
+            "bio": "Megan developed the Streamlit frontend, linked the assistant, and connected all backend logic to deliver a seamless UI."
+        }
     ]
 
     for person in team:
