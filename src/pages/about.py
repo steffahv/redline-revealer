@@ -47,7 +47,7 @@ def render():
             "name": "Henok Tariku",
             "role": "Data Analyst",
             "img": "assets/henok-pic.jpg",
-            "bio": "Henok sourced and visualized historical redlining datasets and created dashboards for community risk scoring."
+            "bio": "Henok sourced and visualized historical redlining datasets and created dashboards for community risk scoring. Henok is a junior Data Analyst and Computer Science student at the University of the People, holding a CGPA of 3.94. He brings a strong foundation in Python, Power BI, Excel, and Azure data tools, combined with a deep passion for mathematics, critical thinking, and data-driven storytelling. As a member of the Redline Revealer team, Henok contributes technical insights to spatial data visualization, supporting the integration of historical redlining datasets with modern geospatial tools. With an eye for detail and a learner’s mindset, he plays a vital role in dataset validation, statistical interpretation, and UI clarity. Henok is driven by a desire to apply data science in meaningful social contexts amplifying underserved voices and uncovering patterns that support transparency and equity."
         },
         {
             "name": "Megan Nepshinsky",
