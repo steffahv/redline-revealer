@@ -6,6 +6,7 @@ This module is rendered as the 'About Us' tab in the main Streamlit app.
 
 import streamlit as st
 
+
 def render():
     st.title("About Redline Revealer")
 
@@ -29,20 +30,12 @@ def render():
 
     # 👩🏽‍💻 Meet the Team
     st.subheader("👩🏽‍💻 Meet the Team")
-
     team = [
         {
             "name": "Portia Jefferson",
             "role": "Project Manager / DevSecOps",
             "img": "assets/JeffersonP.jpg",
-            "bio": (
-                "Portia is a Certified Cybersecurity Professional, Certified AI Consultant, and current cybersecurity student "
-                "with a background in IT, finance, and compliance. She joined the Redline Revealer project to put her skills "
-                "to the test in a hands-on setting—especially in exploring how AI can be used to address ethical challenges "
-                "and support communities. As the team’s Project Manager and DevSecOps lead, she coordinated timelines, facilitated "
-                "tool access, and ensured GitHub workflows stayed organized and secure. Portia is passionate about using technology "
-                "to uncover systemic issues and empower communities—and saw this project as a meaningful way to contribute to that mission."
-            )
+            "bio": "Portia is a Certified Cybersecurity Professional, Certified AI Consultant, and current cybersecurity student with a background in IT, finance, and compliance. She joined the Redline Revealer project to put her skills to the test in a hands-on setting—especially in exploring how AI can be used to address ethical challenges and support communities. As the team’s Project Manager and DevSecOps lead, she coordinated timelines, facilitated tool access, and ensured GitHub workflows stayed organized and secure. Portia is passionate about using technology to uncover systemic issues and empower communities—and saw this project as a meaningful way to contribute to that mission."
         },
         {
             "name": "Esthefany Humpire Vargas",
