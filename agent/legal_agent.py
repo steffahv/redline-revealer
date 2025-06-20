@@ -1,8 +1,10 @@
 """
 Legal Assistant Agent for Redline Revealer
 
-Uses Azure OpenAI + LangChain RAG pipeline to generate answers about heirs' property laws.
+Uses Azure OpenAI + LangChain RAG pipeline to generate legal insights
+about heirs' property laws.
 """
+
 
 import os
 import json
