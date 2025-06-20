@@ -41,7 +41,7 @@ def render():
             "name": "Esthefany Humpire Vargas",
             "role": "AI Engineer",
             "img": "assets/esthef2025.jpg",
-            "bio": "Esthefany built and tested AI prompts using Azure OpenAI and created helper scripts for legal insight generation."
+            "bio": "Esthefany developed the AI Legal Assistant for Redline Revealer, implementing LangChain, Azure OpenAI, and document retrieval to provide accessible legal guidance. She focused on prompt engineering, state-specific filtering, and simplifying complex legal topics using AI."
         },
         {
             "name": "Henok Tariku",
