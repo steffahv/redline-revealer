@@ -11,7 +11,7 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 import streamlit as st
-from pages import welcome, map as map_page, assistant, about
+from pages import welcome, map, assistant, about
 
 # Set page config
 st.set_page_config(page_title="Redline Revealer", layout="wide")
@@ -29,7 +29,7 @@ page = st.sidebar.radio("Go to", [
 if page == "👋 Welcome":
     welcome.render()
 elif page == "📍 Redlining Map":
-    map_page.render()
+    map.render()
 elif page == "🤖 LLM Assistant":
     assistant.render()
 elif page == "💡 About Us":
