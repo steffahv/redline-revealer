@@ -53,7 +53,7 @@ def render():
             "name": "Megan Nepshinsky",
             "role": "Full-Stack Developer",
             "img": "assets/megan-pic.jpg",
-            "bio": "Megan developed the Streamlit frontend, linked the assistant, and connected all backend logic to deliver a seamless UI. Megan is is a Junior Full Stack Developer with experience in Python, JavaScript, Django, and React, focused on building clean, efficient back-end systems and responsive front-end interfaces. Their technical projects highlight a talent for full-stack development and a deep commitment to purpose-driven tech."
+            "bio": "Megan developed the Streamlit frontend, linked the assistant, and connected all backend logic to deliver a seamless UI. Megan is a Junior Full Stack Developer with experience in Python, JavaScript, Django, and React, focused on building clean, efficient back-end systems and responsive front-end interfaces. Her technical projects highlight a talent for full-stack development and a deep commitment to purpose-driven tech."
         }
     ]
 
