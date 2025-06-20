@@ -35,7 +35,7 @@ def render():
             "name": "Portia Jefferson",
             "role": "Project Manager / DevSecOps",
             "img": "assets/JeffersonP.jpg",
-            "bio": "Portia is a Certified Cybersecurity Professional, Certified AI Consultant, and current cybersecurity student with a background in IT, finance, and compliance. She joined the Redline Revealer project to put her skills to the test in a hands-on setting—especially in exploring how AI can be used to address ethical challenges and support communities. As the team’s Project Manager and DevSecOps lead, she coordinated timelines, facilitated tool access, and ensured GitHub workflows stayed organized and secure. Portia is passionate about using technology to uncover systemic issues and empower communities—and saw this project as a meaningful way to contribute to that mission."
+            "bio": "Portia is a Certified Cybersecurity Professional, Certified AI Consultant, and current cybersecurity student with a background in IT, finance, and compliance. While serving as the Project Manager, she also led DevSecOps efforts—including managing GitHub branches and CI/CD workflows, handling environment secrets across platforms, and troubleshooting deployment issues in Streamlit. Portia played a key role in maintaining project momentum, unblocking teammates, and ensuring technical systems stayed organized and secure. She joined Redline Revealer to apply her skills in a real-world AI context, driven by her passion for ethical tech and empowering underserved communities through data transparency and accountability."
         },
         {
             "name": "Esthefany Humpire Vargas",
