@@ -46,13 +46,13 @@ def render():
         {
             "name": "Henok Tariku",
             "role": "Data Analyst",
-            "img": "assets/henok.jpg",
+            "img": "assets/henok-pic.jpg",
             "bio": "Henok sourced and visualized historical redlining datasets and created dashboards for community risk scoring."
         },
         {
             "name": "Megan Nepshinsky",
             "role": "Full-Stack Developer",
-            "img": "assets/megan.jpg",
+            "img": "assets/megan-pic.jpg",
             "bio": "Megan developed the Streamlit frontend, linked the assistant, and connected all backend logic to deliver a seamless UI."
         }
     ]
