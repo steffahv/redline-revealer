@@ -1,30 +1,36 @@
-import streamlit as st
-from prompt_handler import handle_prompt
-from ui_helpers import render_answer_block
+"""Main Streamlit App Launcher for Redline Revealer.
 
+Initializes session state and routes to modular pages: Welcome, Map, Assistant, About.
+Serves as the entry point for Streamlit execution.
+"""
+
+import sys
+import os
+
+# Add /src to path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+import streamlit as st
+from pages import welcome, map, assistant, about
+
+# Set page config
 st.set_page_config(page_title="Redline Revealer", layout="wide")
 
-st.title("🏙️ Redline Revealer")
-st.markdown("Unearthing the past. Protecting the future.")
+# Sidebar navigation
+st.sidebar.title("🔍 Navigation")
+page = st.sidebar.radio("Go to", [
+    "👋 Welcome",
+    "📍 Redlining Map",
+    "🤖 LLM Assistant",
+    "💡 About Us"
+])
 
-tab1, tab2 = st.tabs(["📍 Redlining Map", "🧠 LLM Assistant"])
-
-with tab1:
-    st.subheader("Historical Redlining Visualization")
-    st.info("Map overlay and risk scoring will appear here.")
-
-with tab2:
-    st.subheader("AI Legal Assistant")
-    st.info(
-        "Ask questions about heirs’ property, title issues, and "
-        "stability strategies."
-    )
-
-    user_input = st.text_input("Ask me anything:")
-
-    if user_input:
-        st.write(f"🔍 You asked: {user_input}")
-        with st.spinner("Thinking..."):
-            result = handle_prompt(user_input)
-
-        render_answer_block(result)
+# Load selected page
+if page == "👋 Welcome":
+    welcome.render()
+elif page == "📍 Redlining Map":
+    map.render()
+elif page == "🤖 LLM Assistant":
+    assistant.render()
+elif page == "💡 About Us":
+    about.render()
