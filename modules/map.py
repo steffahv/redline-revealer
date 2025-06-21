@@ -7,7 +7,7 @@ Powered by Azure Maps with a Folium fallback.
 import os
 import geopandas as gpd
 import streamlit as st
-from azure_map import AzureMapRenderer
+from utils.azure_map import AzureMapRenderer
 from streamlit_folium import st_folium
 import folium
 from folium.plugins import Search
