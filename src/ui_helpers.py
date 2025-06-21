@@ -1,18 +1,9 @@
 import streamlit as st
 
-
 def render_answer_block(result: dict):
     # Main answer
-    answer_block = (
-        "<div style='background-color:#102e19;"
-        "padding:20px;border-radius:12px;margin-top:20px;'>"
-        "<h4 style='color:white;'>🧠 AI Legal Assistant Answer</h4>"
-        f"<div style='font-size:16px;line-height:1.6;color:white;'>"
-        f"{result['answer']}</div>"
-        "</div>"
-    )
-
-    st.markdown(answer_block, unsafe_allow_html=True)
+    st.markdown("### 🧠 AI Legal Assistant Answer")
+    st.markdown(result["answer"], unsafe_allow_html=True)
 
     # Curated link
     if result.get("curated_link"):
@@ -28,17 +19,10 @@ def render_answer_block(result: dict):
             "font-weight:600;border-radius:6px;'>"
             "🔍 View Legal Resource</a></div>"
         )
-
         st.markdown(curated_block, unsafe_allow_html=True)
 
     # Source files
     if result.get("source_info"):
         st.markdown("### 📄 Source Documents Used:")
         for src in result["source_info"]:
-            st.markdown(
-                (
-                    "<div style='margin-left:10px;color:#333;'>"
-                    f"🔹 {src}</div>"
-                ),
-                unsafe_allow_html=True
-            )
+            st.markdown(f"🔹 {src}", unsafe_allow_html=True)
