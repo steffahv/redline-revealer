@@ -60,7 +60,10 @@ def render():
     for person in team:
         col1, col2 = st.columns([1, 3])
         with col1:
-            st.image(person["img"], use_container_width=True)
+            try:
+                st.image(person["img"], use_container_width=True)
+            except Exception:
+                st.warning(f"Image not found: {person['img']}")
         with col2:
             st.markdown(f"**{person['name']}** – *{person['role']}*\n\n{person['bio']}")
         st.markdown("---")
