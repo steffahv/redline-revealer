@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 def render_answer_block(result: dict):
     # Main answer
     st.markdown("### 🧠 AI Legal Assistant Answer")

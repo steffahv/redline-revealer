@@ -11,16 +11,14 @@ AZURE_BLOB_BASE_URL = os.getenv("AZURE_BLOB_BASE_URL")
 
 # Connect to the container
 container_client = ContainerClient.from_connection_string(
-    conn_str=AZURE_BLOB_CONN_STR,
-    container_name=AZURE_BLOB_CONTAINER
+    conn_str=AZURE_BLOB_CONN_STR, container_name=AZURE_BLOB_CONTAINER
 )
 
 # Generate mapping of {filename: public_url}
 source_links = {}
 for blob in container_client.list_blobs():
     if blob.name.endswith(".pdf"):
-        source_links[os.path.basename(
-            blob.name)] = f"{AZURE_BLOB_BASE_URL}/{blob.name}"
+        source_links[os.path.basename(blob.name)] = f"{AZURE_BLOB_BASE_URL}/{blob.name}"
 
 # Save to JSON
 os.makedirs("data", exist_ok=True)

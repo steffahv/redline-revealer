@@ -21,7 +21,7 @@ load_dotenv()
 client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_KEY"),
     api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
 )
 
 # Load public blob links for source documents
@@ -35,6 +35,7 @@ with open(os.path.join("data", "state_links.json"), "r") as f:
 def is_generic_doc(filename):
     return not re.search(r"-[a-z]{2}-\d{4}", filename.lower())
 
+
 # Helper to check if a document is state-specific
 def is_state_specific(doc):
     source = doc.metadata.get("source", "").lower()
@@ -42,6 +43,7 @@ def is_state_specific(doc):
         if state.lower() in source:
             return True
     return False
+
 
 def get_reference_link(question):
     question_lower = question.lower()
@@ -53,11 +55,13 @@ def get_reference_link(question):
                     return link
     return None
 
+
 def extract_state(question):
     for state in US_STATES:
         if re.search(rf"\b{state}\b", question, re.IGNORECASE):
             return state
     return None
+
 
 # Setup RAG (FAISS + LangChain)
 embedding_model = AzureOpenAIEmbeddings(
@@ -69,7 +73,7 @@ embedding_model = AzureOpenAIEmbeddings(
 vectorstore = FAISS.load_local(
     "data/indexes/legal_docs_index",
     embeddings=embedding_model,
-    allow_dangerous_deserialization=True
+    allow_dangerous_deserialization=True,
 )
 print(f"✅ Loaded FAISS index with {len(vectorstore.docstore._dict)} documents")
 
@@ -89,7 +93,7 @@ custom_prompt_text = (
     "If the documents are not about the topic the user is asking (e.g., if the "
     "user is asking about vehicle registration but the documents are about "
     "heirs’ property), say:\n"
-    "\"I don’t have information on that specific topic.\"\n\n"
+    '"I don’t have information on that specific topic."\n\n'
     "Include in your answer:\n"
     "- Steps the person should take\n"
     "- Any laws, legal terms, or definitions if available\n"
@@ -103,7 +107,7 @@ custom_prompt = PromptTemplate.from_template(custom_prompt_text)
 generic_prompt_text = (
     "You are a helpful legal assistant.\n\n"
     "A user has asked the following question:\n\n"
-    "\"{question}\"\n\n"
+    '"{question}"\n\n'
     "Try to answer in a way that is useful and easy to understand. "
     "If you don’t know the answer or it requires specific legal information "
     "from a state that’s not available, say so clearly.\n\n"
@@ -117,13 +121,13 @@ generic_prompt_text = (
 
 generic_prompt = PromptTemplate.from_template(generic_prompt_text)
 
+
 def get_legal_answer(question):
     try:
         state = extract_state(question)
 
-        is_us_state = (
-            state is not None and
-            any(state.lower() == s.lower() for s in US_STATES)
+        is_us_state = state is not None and any(
+            state.lower() == s.lower() for s in US_STATES
         )
 
         filtered_docs = []
@@ -133,7 +137,9 @@ def get_legal_answer(question):
             docs = retriever.get_relevant_documents(question)
             for doc in docs:
                 print("[DEBUG] Retrieved doc source:", doc.metadata.get("source", ""))
-                print("[DEBUG] Document content sample:", doc.page_content[:300])  # limit to avoid flooding
+                print(
+                    "[DEBUG] Document content sample:", doc.page_content[:300]
+                )  # limit to avoid flooding
             for doc in docs:
                 content = doc.page_content.lower()
                 source = doc.metadata.get("source", "").lower()
@@ -145,22 +151,15 @@ def get_legal_answer(question):
 
         # RAG path
         if filtered_docs:
-            chain = load_qa_chain(
-                llm,
-                chain_type="stuff",
-                prompt=custom_prompt
-            )
-            answer = chain.run(
-                input_documents=filtered_docs,
-                question=question
-            )
+            chain = load_qa_chain(llm, chain_type="stuff", prompt=custom_prompt)
+            answer = chain.run(input_documents=filtered_docs, question=question)
             result = {"result": answer, "source_documents": filtered_docs}
         else:
             # Direct LLM answer (no documents used)
             result = {"source_documents": []}
             formatted_question = generic_prompt.format(question=question)
             answer = llm.invoke(formatted_question).content
-            
+
         # Retry if response is unhelpful
         if "i don't know" in answer.lower() or len(answer.strip()) < 40:
             answer = llm.invoke(question).content
@@ -189,4 +188,6 @@ def get_legal_answer(question):
 
     except Exception as e:
         print(f"Error in get_legal_answer: {e}")
-        return "We weren’t able to generate a response right now. Please try again later."
+        return (
+            "We weren’t able to generate a response right now. Please try again later."
+        )

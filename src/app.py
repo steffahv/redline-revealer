@@ -4,14 +4,16 @@ Initializes session state and routes to modular pages: Welcome, Map, Assistant, 
 Serves as the entry point for Streamlit execution.
 """
 
+from ui_helpers import render_answer_block
+from prompt_handler import handle_prompt
+from pages import welcome, map, assistant, about
+import streamlit as st
 import sys
 import os
 
 # Add /src to path
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-import streamlit as st
-from pages import welcome, map, assistant, about
 
 # Set page config
 st.set_page_config(page_title="Redline Revealer", layout="wide")
@@ -38,8 +40,8 @@ text = {
             "How do I resolve unclear property titles?",
             "Can heirs sell inherited land without consent?",
             "Where do I start if I think I inherited land?",
-            "What legal documents should I look for after someone passes away?"
-        ]
+            "What legal documents should I look for after someone passes away?",
+        ],
     },
     "Español": {
         "title": "🏙️ Redline Revealer",
@@ -61,9 +63,9 @@ text = {
             "¿Cómo resolver títulos de propiedad poco claros?",
             "¿Pueden los herederos vender la tierra sin consentimiento?",
             "¿Por dónde empiezo si creo que heredé un terreno?",
-            "¿Qué documentos legales debo buscar tras el fallecimiento de alguien?"
-        ]
-    }
+            "¿Qué documentos legales debo buscar tras el fallecimiento de alguien?",
+        ],
+    },
 }
 
 # Initialize session state
@@ -79,7 +81,8 @@ if "last_answer" not in st.session_state:
     st.session_state.last_answer = None
 
 # Language Selector
-st.markdown("""
+st.markdown(
+    """
     <style>
     .compact-selectbox .stSelectbox > div {
         padding-top: 1px !important;
@@ -88,18 +91,21 @@ st.markdown("""
         min-height: 25px !important;
     }
     </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 language_row = st.columns([10, 1])
 with language_row[1]:
     with st.container():
         st.markdown('<div class="compact-selectbox">', unsafe_allow_html=True)
         selected_language = st.selectbox(
-            "Select Language:", ["English", "Español"],
+            "Select Language:",
+            ["English", "Español"],
             label_visibility="collapsed",
-            key="language_toggle_box"
+            key="language_toggle_box",
         )
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
         if selected_language != st.session_state.language:
             st.session_state.language = selected_language
@@ -118,7 +124,7 @@ active_tab = st.radio(
     label="",
     options=["tab1", "tab2"],
     format_func=lambda x: tab_map[x],
-    horizontal=True
+    horizontal=True,
 )
 st.session_state.active_tab = active_tab
 
@@ -148,14 +154,19 @@ elif st.session_state.active_tab == "tab2":
             st.write(f"{L['you_asked']} {st.session_state.submitted_question}")
 
             if (
-                st.session_state.last_answer is None or
-                st.session_state.last_answer["question"] != st.session_state.submitted_question
+                st.session_state.last_answer is None
+                or st.session_state.last_answer["question"]
+                != st.session_state.submitted_question
             ):
-                with st.spinner("Thinking..." if st.session_state.language == "English" else "Pensando..."):
+                with st.spinner(
+                    "Thinking..."
+                    if st.session_state.language == "English"
+                    else "Pensando..."
+                ):
                     result = handle_prompt(st.session_state.submitted_question)
                 st.session_state.last_answer = {
                     "question": st.session_state.submitted_question,
-                    "result": result
+                    "result": result,
                 }
             else:
                 result = st.session_state.last_answer["result"]
@@ -169,10 +180,13 @@ elif st.session_state.active_tab == "tab2":
                 st.session_state.submitted_question = q
                 st.session_state.question_source = "click"
                 st.rerun()
-    
-         # Legal Disclaimer
-        st.markdown("""
+
+        # Legal Disclaimer
+        st.markdown(
+            """
         <div style='font-size: 0.9rem; color: gray; margin-top: 1em;'>
         ⚠️ This assistant provides general information, not legal advice. Please consult a legal professional for guidance.
         </div>
-        """, unsafe_allow_html=True)
+        """,
+            unsafe_allow_html=True,
+        )

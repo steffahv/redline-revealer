@@ -1,7 +1,8 @@
 from agent.legal_agent import get_legal_answer
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 def handle_prompt(user_input: str) -> dict:
@@ -17,7 +18,7 @@ def handle_prompt(user_input: str) -> dict:
         return {
             "answer": "⚠️ Please enter a valid legal question.",
             "curated_link": None,
-            "source_info": []
+            "source_info": [],
         }
 
     raw_response = get_legal_answer(user_input)
@@ -33,15 +34,17 @@ def handle_prompt(user_input: str) -> dict:
         answer = parts[0].strip()
         curated_link = parts[1].strip()
 
-    # Extract sources
     if "📄 Sources:" in answer:
         parts = answer.split("📄 Sources:")
         answer = parts[0].strip()
-        source_info = [src.strip()
-                       for src in parts[1].split(",") if src.strip()]
+        source_info = [
+            src.strip()
+            for src in parts[1].split(",")
+            if src.strip()
+        ]
 
     return {
         "answer": answer,
         "curated_link": curated_link,
-        "source_info": source_info
+        "source_info": source_info,
     }

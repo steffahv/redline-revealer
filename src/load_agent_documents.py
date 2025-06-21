@@ -10,7 +10,8 @@ load_dotenv()
 
 AZURE_CONN_STR = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 AZURE_OPENAI_EMBEDDING_DEPLOYMENT = os.getenv(
-    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT")
+    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT"
+)
 AZURE_OPENAI_EMBEDDING_MODEL = os.getenv("AZURE_OPENAI_EMBEDDING_MODEL")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
@@ -25,14 +26,18 @@ os.makedirs(local_path, exist_ok=True)
 
 print("⬇️ Downloading PDFs from Azure Blob Storage...")
 container_client = ContainerClient.from_connection_string(
-    AZURE_CONN_STR, container_name)
+    AZURE_CONN_STR, container_name
+)
 
 for blob in container_client.list_blobs():
     if blob.name.endswith(".pdf"):
-        local_file = os.path.join(local_path, os.path.basename(blob.name))
+        local_file = os.path.join(
+            local_path,
+            os.path.basename(blob.name)
+        )
+        blob_client = container_client.get_blob_client(blob.name)
+        blob_data = blob_client.download_blob().readall()
         with open(local_file, "wb") as f:
-            blob_data = container_client.get_blob_client(
-                blob.name).download_blob().readall()
             f.write(blob_data)
         print(f"✅ Downloaded: {blob.name}")
 

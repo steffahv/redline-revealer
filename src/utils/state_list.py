@@ -48,4 +48,5 @@ US_STATES = [
     "Washington",
     "West Virginia",
     "Wisconsin",
-    "Wyoming"]
+    "Wyoming",
+]
