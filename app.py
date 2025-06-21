@@ -1,5 +1,5 @@
 import streamlit as st
-from modules import welcome, map, assistant, about
+from modules import welcome, map_page, assistant, about
 
 # Configure page
 st.set_page_config(page_title="Redline Revealer", layout="wide")
@@ -17,7 +17,7 @@ page = st.sidebar.radio("Go to", [
 if page == "👋 Welcome":
     welcome.render()
 elif page == "📍 Redlining Map":
-    map.render()
+    map_page.render()
 elif page == "🤖 LLM Assistant":
     assistant.render()
 elif page == "💡 About Us":
