@@ -1,16 +1,16 @@
 """Redlining Map Page for Redline Revealer.
 
 Displays interactive overlays of historical redlining and housing risk.
-Powered by Azure Maps with a Folium fallback.
+Power BI placeholder until Azure/BI integration is finalized.
 """
 
 import os
 import geopandas as gpd
 import streamlit as st
-from utils.azure_map import AzureMapRenderer
 from streamlit_folium import st_folium
 import folium
 from folium.plugins import Search
+
 
 def render():
     st.set_page_config(layout="wide", page_title="Redlining Visualizer", page_icon="📍")
@@ -31,23 +31,20 @@ def render():
 
     holc_gdf = load_data()
 
+    # Sidebar Map Option
     map_type = st.sidebar.radio(
         "Map Provider",
-        ("Azure Maps", "Folium (Fallback)"),
-        index=0 if st.secrets.get("AZURE_MAPS_KEY") else 1
+        ("Power BI (Coming Soon)", "Folium (Fallback)"),
+        index=0
     )
 
-    if map_type == "Azure Maps":
-        renderer = AzureMapRenderer()
-        map_url = renderer.render(holc_gdf.__geo_interface__)
-        if map_url:
-            st.components.v1.iframe(map_url, height=700)
-        else:
-            st.warning("Azure Maps failed — falling back to Folium")
-            st_folium(create_folium_map(holc_gdf), width=1200, height=700)
+    if map_type == "Power BI (Coming Soon)":
+        st.info("🚧 Power BI map will be embedded here once finalized by the data team.")
+        st.image("https://via.placeholder.com/1000x600.png?text=Power+BI+Map+Coming+Soon", caption="Power BI Visualization Placeholder")
     else:
         st_folium(create_folium_map(holc_gdf), width=1200, height=700)
 
+    # Sidebar Stats
     st.sidebar.subheader("Statistics")
     grade_counts = holc_gdf['grade'].value_counts()
     st.sidebar.metric("Total Areas", len(holc_gdf))
@@ -64,7 +61,7 @@ def create_folium_map(gdf):
             'fillColor': {
                 'A': '#00FF00', 'B': '#FFFF00',
                 'C': '#FFA500', 'D': '#FF0000'
-            }.get(f['properties']['grade'], '#CCCCCC'),
+            }.get(f['properties'].get('grade', 'Unknown'), '#CCCCCC'),
             'color': 'black',
             'weight': 1,
             'fillOpacity': 0.7
