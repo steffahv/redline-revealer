@@ -1,15 +1,32 @@
+# --- Core App Dependencies ---
 streamlit
 pandas
 geopandas
-openai
-langchain
+matplotlib
 scikit-learn
 python-dotenv
-matplotlib
+plotly
+
+# --- AI & Language Models ---
+openai
 langchain
-azure-storage-blob
-faiss-cpu
 langchain-community
 langchain-openai
+
+# --- Azure & Cloud ---
+azure-storage-blob
+azure-identity
+azure-maps-render
+
+# --- Mapping Tools ---
+folium
+streamlit-folium
+
+# --- BI & Data Export Support ---
+pyarrow         # For Parquet (Power BI optimized)
+openpyxl        # Write to Excel
+xlrd            # Read older Excel formats (optional)
+
+# --- Dev Tools ---
 autopep8
 flake8
