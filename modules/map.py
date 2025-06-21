@@ -9,8 +9,6 @@ import geopandas as gpd
 import streamlit as st
 from streamlit_folium import st_folium
 import folium
-from folium.plugins import Search
-
 
 def render():
     st.set_page_config(layout="wide", page_title="Redlining Visualizer", page_icon="📍")
@@ -46,11 +44,13 @@ def render():
 
     # Sidebar Stats
     st.sidebar.subheader("Statistics")
-    grade_counts = holc_gdf['grade'].value_counts()
-    st.sidebar.metric("Total Areas", len(holc_gdf))
-    st.sidebar.metric("A-Grade Areas", grade_counts.get('A', 0))
-    st.sidebar.metric("D-Grade Areas", grade_counts.get('D', 0))
-
+    if 'grade' in holc_gdf.columns:
+        grade_counts = holc_gdf['grade'].value_counts()
+        st.sidebar.metric("Total Areas", len(holc_gdf))
+        st.sidebar.metric("A-Grade Areas", grade_counts.get('A', 0))
+        st.sidebar.metric("D-Grade Areas", grade_counts.get('D', 0))
+    else:
+        st.sidebar.warning("No 'grade' column found in data.")
 
 def create_folium_map(gdf):
     """Create a Folium-based fallback map."""
@@ -61,7 +61,7 @@ def create_folium_map(gdf):
             'fillColor': {
                 'A': '#00FF00', 'B': '#FFFF00',
                 'C': '#FFA500', 'D': '#FF0000'
-            }.get(f['properties'].get('grade', 'Unknown'), '#CCCCCC'),
+            }.get(f.get('properties', {}).get('grade', 'Unknown'), '#CCCCCC'),
             'color': 'black',
             'weight': 1,
             'fillOpacity': 0.7
